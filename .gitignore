@@ -1,4 +1,4 @@
-.idea
-__pycache__
-share
-venv
+.idea/
+__pycache__/
+share/
+venv/
