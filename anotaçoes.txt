@@ -1,0 +1,13 @@
+linha2 = cortar(linha, "<p>")
+linha3 = cortar(linha2, "002D009 ")
+
+        for campos in linha2:
+            campos = campos.strip()
+            print(campos)
+
+			campos = linha2[1], 6morto, 8was killed, 13quemmatou, 15arma
+			
+		,"::", campomorto,"::", campoassass,"::", campoarma
+		
+		indexarm = campoarm.rindex(')')
+        campoarmf=campoarm[5:indexarm]
