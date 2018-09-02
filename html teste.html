@@ -1,0 +1,1453 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Leaderboard</title>
+    <meta name="description" content="">
+    
+    <link href="/static/misago/css/gveforum.css" rel="stylesheet">
+    <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/apple-touch-icon-57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/apple-touch-icon-72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/apple-touch-icon-76.png">
+    <link rel="apple-touch-icon" sizes="80x80" href="/static/apple-touch-icon-80.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/apple-touch-icon-114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/apple-touch-icon-120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/apple-touch-icon-144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/apple-touch-icon-152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/static/apple-touch-icon-167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon-180.png">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <link rel="icon" sizes="16x16 32x32" href="/static/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker|Roboto|Sarala" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+   <!-- <script src="//code.jquery.com/jquery-1.10.2.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="/static/js/bootstrap-notify.js"></script>
+    <script src="/static/js/bootstrap-modal.js"></script>
+    <script src="/static/js/tablesorter.min.js"></script>
+
+    <script src="https://use.fontawesome.com/4eea32081f.js"></script>
+    <script src="https://js.pusher.com/3.1/pusher.min.js"></script>
+  </head>
+  <body>
+
+    <div id="auth-message-mount"></div>
+    <div id="snackbar-mount"></div>
+
+    
+    
+<nav class="navbar navbar-misago navbar-default navbar-inverse navbar-static-top" role="navigation">
+  <div class="container navbar-full hidden-xs hidden-sm">
+    
+    <a href="/" class="navbar-brand">
+      <img src="/static/misago/img/logo.png" alt="">
+      
+        <span class="hidden-xs hidden-sm" style="color: #9e4040; font-family: 'Permanent Marker', cursive;">Good vs Evil</span>
+      
+    </a>
+    
+
+    <ul class="nav navbar-nav">
+    <!--
+      
+      <li>
+        <a href="/">
+        <i class="fa fa-comment fa-lg fa-fw fa-inverse"></i>
+          Threads
+        </a>
+      </li>
+      <li>
+        <a href="/categories/">
+        <i class="fa fa-comments fa-lg fa-fw fa-inverse"></i>
+          Categories
+        </a>
+      </li>
+      
+-->
+      <li class="dropdown">
+       <a href="/leaderboard/players/" class="dropdown-toggle" data-toggle="dropdown" role="button">
+       <i class="fa fa-trophy fa-lg fa-fw fa-inverse" style="color: #8999a7"></i>
+          Leaderboards
+       </a>
+       <ul class="dropdown-menu ropdown-menu-center" style="width:140px" role="menu">
+        <li>
+        <a href="/leaderboard/players/">
+          Top Players
+        </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+        <a href="/leaderboard/squads/">
+          Top Squads
+        </a>
+        </li>
+       </ul>
+      </li> 
+<!--
+      <li>
+        <a href="/leaderboard/players/">
+        <i class="fa fa-trophy fa-lg fa-fw fa-inverse" style="color: #8999a7"></i>
+          Players
+        </a>
+      </li>
+      <li>
+        <a href="/leaderboard/squads/">
+        <i class="fa fa-trophy fa-lg fa-fw fa-inverse" style="color: #8999a7"></i>
+          Squads
+        </a>
+      </li>
+ -->
+      <li> 
+        <a href="/online/">
+        <i class="fa fa-male fa-lg fa-fw fa-inverse" style="color: #8999a7"></i>
+          Online <span id="online"></span>
+        </a>
+      </li>
+      <li>
+        <a href="/killfeed/live/">
+        <i class="fa fa-history fa-lg fa-fw fa-inverse" style="color: #8999a7"></i>
+          KillFeed 
+        </a>
+      </li>
+      <li>
+        <a href="/squad/">
+        <i class="fa fa-users fa-fw fa-inverse" style="color: #8999a7"></i>
+          My Squad
+        </a>
+      </li>
+      <li>
+        <a href="/steam">
+        <i class="fa fa-steam fa-fw fa-inverse" style="color: #8999a7"></i>
+          Link Steam
+        </a>
+      </li>
+      <li>
+        <a href="/faqs/">
+        <i class="fa fa-question-circle fa-fw fa-inverse" style="color: #8999a7"></i>
+          FAQs
+        </a>
+      </li>
+      <li>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+          <input type="hidden" name="cmd" value="_s-xclick">
+          <input type="hidden" name="hosted_button_id" value="HNQYTQLBVKLEA">
+          <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" style="padding-top:13px; padding-left: 10px">
+          <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
+      </li>
+      
+    </ul>
+
+    <div id="user-menu-mount"></div>
+  </div><!-- /full navbar -->
+
+  <ul class="nav navbar-nav navbar-compact-nav hidden-md hidden-lg">
+      <li style="width: 145px;">
+        <a href="/">
+          <img src="/static/misago/img/logo.png" alt="">
+        <span class="" style="color: #9e4040; font-family: 'Permanent Marker', cursive;">Good vs Evil</span>
+        </a>
+      </li>
+      <li>
+        <a href="/leaderboard/players/">
+          <i class="fa fa-trophy fa-lg fa-fw fa-inverse" style="color: #8999a7"></i>
+        </a>
+      </li>
+      <li style="width: 115%">
+        <a href="/online/">
+          <i class="fa fa-group fa-lg fa-fw fa-inverse" style="color: #8999a7"></i>
+           <span style="font-size: 15px" id="online"></b>
+        </a>
+      </li>
+    
+    <li id="user-menu-compact-mount"></li>
+  </ul>
+  <!-- /compact navbar -->
+</nav>
+<div id="mobile-navbar-dropdown-mount" class="mobile-dropdown"></div>
+
+<div class="container" style="text-align: center">
+<!--<div style="margin-top: 10px;"><span style="color:#d48d1c;">NOTICE:&nbsp;&nbsp;ALL users must link their STEAM ID by June 16th!  <a href="/steam">&nbsp;<u>Sign-On and Click Here</a></u></a></span></div>  -->
+</div>
+
+
+    
+    
+    <div id="page-mount">
+      
+<style type="text/css">
+ body { padding-right: 0 !important }
+
+ td {
+    font-family: Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    
+    font-size: 16px;
+    
+    color: #cfd2da;
+  }
+  table tr :hover { background: #bbb }
+
+  table .header {
+    vertical-align: bottom;
+    text-align: center;
+    //background-color: #1A1C22;
+    cursor: pointer;
+    padding-right: 20px;
+    font-weight: 300;
+    color: #777c8c;
+    :hover {
+      cursor: pointer;
+    }
+  }
+
+  table thead tr th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #434857;
+    
+    font-size: 16px;
+    
+    color: #777c8c;
+  }
+
+  .console-body-scroller {
+    max-height: 500px;
+    height: 400px;
+    overflow: auto;
+    border-radius: 6px;
+  }
+
+  .headerSortUp,
+  .headerSortDown {
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700 !important;
+    color: #1CA8DD !important;
+    border-bottom-color: #1CA8DD !important;
+  }
+
+  th.header.headerSortUp:after {
+      color: #1CA8DD !important;
+      display: inline-block;
+      width: 0;
+      height: 0;
+      content: "";
+      margin-right: -10px;
+      margin-bottom: 2px;
+      margin-left: 5px;
+      border-right: 4px solid transparent;
+      border-left:  4px solid transparent;
+      border-top: 4px solid;
+  }
+
+  th.header.headerSortDown:after {
+      color: #1CA8DD !important;
+      display: inline-block;
+      width: 0;
+      height: 0;
+      content: "";
+      margin-right: -10px;
+      margin-bottom: 2px;
+      margin-left: 5px;
+      border-right: 4px solid transparent;
+      border-left:  4px solid transparent;
+      border-bottom: 4px solid;
+  }
+
+  .killfeed-content {
+      background-color: #393D46;
+      color: #cfd2da;
+  } 
+
+  .killfeed-tabs {
+      border-bottom: 0px;
+      margin-bottom: -9px;
+  }
+
+  .nav-tabs > li.active > a  {
+      background-color: #393D46;
+  }
+
+  .nav-tabs > li > a:focus  {
+      background-color: #4b5467;
+      color: #fff;
+      border: 1px solid #434857;
+  }
+
+  .nav-tabs > li > a:hover {
+      background-color: #2e3138;
+      color: #cfd2da;
+      border: 1px solid #434857;
+  }
+
+  .nav-tabs > li.active > a,
+  .nav-tabs > li.active > a:hover,
+  .nav-tabs > li.active > a:focus {
+      background-color: #393D46; 
+      color: #cfd2da;
+   }
+
+  .table > .killfeed-table {
+       background-color: #393D46;
+       border-top: 0px;
+       border: 1px solid #434857;
+       background-repeat: no-repeat;
+       
+       background-position-y: -148px;
+       
+  }
+
+  .table > .killfeed-table > thead > tr th.header:hover {   
+       background-color: #434857;
+  }
+
+  .table > .killfeed-table > tbody > tr:hover {   
+       background-color: #434857;
+       color: #1bc98e !important;
+  }
+
+  .table > .killfeed-table > thead > tr > td:hover {   
+       background-color: #434857;
+  }
+
+  .table > .killfeed-table > tbody > tr > td#target:hover {
+       color: #c7655a !important;
+       background-color: #434857;
+       text-decoration: underline;
+  }
+
+  .table > .killfeed-table > tbody > tr > td > span:hover {
+       background-color: #434857;
+  }
+
+  .table > .killfeed-table > tbody > tr > td:hover {
+       background-color: #434857;
+  }
+
+  .selected_table > tbody > tr > td:hover {
+       background-color: #434857 !important;
+  }
+  .selected_table > tbody > tr > td > span:hover {
+       background-color: #434857 !important;
+  }
+
+  .table {
+       margin-top: -41px;
+  }
+
+  .table > .killfeed-table > tbody > .tr_selected > td {
+       padding-left: 45px;
+       border-top: 0px;
+  }
+
+  .admin:hover {
+       background-color: #434857;
+  }
+
+  .selected_table > tbody > tr {
+       background-color: #393d46 !important;
+  }
+
+  .buttons:hover {
+       background-color: #434857;
+  }
+
+  .table tr : hover {
+       background-color: #434857;
+  }
+
+  .btn:hover, .btn:focus, .btn.focus {
+    color: #fff !important;
+    text-decoration: none;
+  }
+
+  .modal-content {
+      border: 0px;
+  }
+  
+  .report-player-label {
+      color: #1CA8DD;
+      padding-left: 10px;
+  }
+
+  .modal-body button {
+    background: #565d73; 
+  }
+
+  .modal-body button:hover {
+    background: #565d73; 
+    color: #fff;
+  }
+
+.search-nav {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.btn-primary-outline {
+    background-color: transparent;
+    border-color: #1997c6;
+    color: #1997c6;
+}
+
+.navbar-search-text {
+    border: 1px solid #1997c6;
+    border-radius: 3px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    color: #fff;
+}
+
+.navbar-search-form {
+    height: 30px;
+    width: 165px;
+    overflow: visible;
+    position: relative;
+    margin-right: -1px;
+}
+
+.report-notice {
+    float: left;
+    margin-top: 23px;
+    margin-left: 30px;
+    color: #c7655a;
+}
+
+
+</style>
+
+ <div class="modal fade modal-dialog report-modal" id="report-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 600px; position:absolute;">
+  <div class="modal-content">
+   <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#fff">
+     <span aria-hidden="true">×</span>
+    </button>
+    <h4 class="modal-title">Report Player<span class="report-player-label" id="reported_player"></span></h4>
+   </div>
+   <div class="modal-body modal-avatar-index">
+   <form id="reporter">
+    <input type='hidden' name='csrfmiddlewaretoken' value='c2QZ4poBFA7qE8oqj7UdbvMofQcKppXkvFa1zbry0k0w1WKQ4MKhTiooCMvPP5J8' />
+    <div class="row">
+     <div class="col-md-7">
+     <span style="color: #cc5809">You are about to report a player to GvE.</span>  <p><p>This is a serious request and if abused could result in your own ban.  All evidence provided will be reviewed by GvE staff and an appropriate action will be taken as swiftly as possible. <p><span style="color: #6b81c1">You may only report the same player ONCE.</span>
+     <p>If possible, please include a link to any collected evidence (screenshots or videos) below or add a complaint note:
+     <div class=""><input style="background-color: #565d73; color: #1CA8EC" type="text" id="id_email" class="form-control" aria-describedby="id_email_status" name="evidence"><span id="id_email_status" class="sr-only">(success)</span>
+     </div>
+     </div>
+     <div class="col-md-5">
+      <button id="category" class="btn btn-default btn-block" type="button" value="1">Hacking</button>
+      <button id="category" class="btn btn-default btn-block" type="button" value="2">Glitching</button>
+      <button id="category" class="btn btn-default btn-block" type="button" value="3">Bambi-Killer</button>
+      <button id="category" class="btn btn-default btn-block" type="button" value="4">Harrassment</button>
+      <button id="category" class="btn btn-default btn-block" type="button" value="9">Other</button>
+     </div>
+    </form>
+    </div>
+   </div>
+   <div class="modal-footer" style="border-top: 1px solid #525767">
+     <button class="btn btn-default" data-dismiss="modal" type="button">Cancel</button>
+     <button id="submitreport" class="btn btn-primary" data-dismiss="modal" type="submit">Submit Report</button>
+   </div>
+  </div>
+</div>
+</div>
+
+<div class="page-header header-primary" style="border-bottom: 0px;">
+  <div class="container" style="padding-bottom: 18px">
+  
+  </div>
+  <div class="container">
+    <div style="text-align: left">
+    <h1> KillFeed - Battle for Berezino</h1>
+    </div>
+    
+    <ul class="nav nav-tabs header-tabs killfeed-tabs" style="float: left; padding-top: 12px;">
+     <li class=" active ">
+       <a class="active-tab" href="/killfeed/live">Live Feed</a>
+     </li>
+     <li class="">
+       <a class="" href="/killfeed/last24">Last 24 Hours</a>
+     </li>
+     
+    </ul>
+
+    
+  </div>
+
+
+
+
+<div style="margin-top: -20px;">
+<div id="console-win" class="container">
+  <div class="modal-dialog modal-md" style="width: 100%">
+    <div class="modal-content" style="background: #393D46; display: inline-block; box-shadow: 0 0 0; width: 100%; border-radius: 0px; border: 1px solid #434857;">
+     <div id="console-container" style="padding-top:10px">
+       <div id="console" class="modal-body console-body-scroller">
+         <div id="console-killfeed" style="font-family: monospace; line-height: 0.5; font-size: 13px; color: #cfd2da">
+         </div>
+       </div>
+     </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+
+function scrollConsole(type) {
+         var scroll = $('#console');
+         var win = $('#console-'+type);
+         var height = win[0].scrollHeight;
+         scroll.scrollTop(height);
+}
+
+
+/**
+ * Return a timestamp with the format "m/d/yy h:MM:ss TT"
+ */
+
+function timeStamp() {
+  var now = new Date();
+
+  var date = [ now.getMonth() + 1, now.getDate(), now.getFullYear() ];
+
+  var time = [ now.getHours(), now.getMinutes(), now.getSeconds() ];
+
+  // Convert hour from military time
+  //  time[0] = ( time[0] < 12 ) ? time[0] : time[0] - 12;
+
+  time[0] = time[0] || 12;
+
+  for ( var i = 1; i < 3; i++ ) {
+    if ( time[i] < 10 ) {
+      time[i] = "0" + time[i];
+    }
+  }
+  return date.join("/") + " " + time.join(":") + " " + suffix;
+}
+
+var report_category, player_slot, player_guid, player_hash, player_name;
+
+(function() {
+
+  
+
+   function popupNotify(type, text)
+   {
+     jQuery.noConflict();
+     if (type == 'success')
+         message = '<center><font style="color:#fff">'+text+'</font></center>';
+     else
+         message = '<center><font style="color:#fff">'+text+'</font></center>';
+
+         $.notify({ message: message 
+              },                                                              
+              { type: type,
+                allow_dismiss: false,
+                placement: {
+                 from: "top",
+                 align: "center",
+                },
+                width: 40,
+                delay: 3000,
+                offset: 50,
+                template: '<div data-notify="container" class="col-xs-9 col-sm-3 alert alert-{0}" role="alert">' +
+		'<span data-notify="title">{1}</span>' +
+		'<span data-notify="message">{2}</span>' +
+	        '</div>'
+              });                                                             
+   }
+
+  
+
+  
+
+   
+         
+         $('#console-killfeed').append('<p>09\u002D01 13:37:33 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EPr0dagy\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eandrey\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 13:43:16 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ebodzi\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Midwest\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 13:51:19 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EDylz\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Midwest\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 13:51:39 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Midwest\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EDylz\u003C/span\u003E (?)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 13:52:52 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Ptacnik\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ESpencer\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 13:55:37 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ERurok\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ESpencer\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 13:59:21 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EOd\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ewarcrime\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 13:59:45 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ebodzi\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETanner\u003C/span\u003E (AKS74U)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 13:59:47 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESpencer\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW BINICI\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:06:53 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ewarcrime\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EOd\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:18:28 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJordan\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EPedrovski\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:20:09 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ERurok\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Euser (2)\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:28:43 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ebeanboy\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECutters\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:33:45 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eguido\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EBillyTheShark\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:34:20 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EPornilly.com\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMewtu\u003C/span\u003E (SKS_Black)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:36:26 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMewtu\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EFlowS45\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:37:35 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eguido\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EJustin\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:40:50 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EFlowS45\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ERockyFx\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:43:04 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMoonlight\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EThe\u002DRipper1988\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:43:40 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMr.Revolution\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Ptacnik\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:44:36 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ERockyFx\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ESmith\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:45:54 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMoonlight\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMewtu\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:48:17 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESmith\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EPornilly.com\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:48:22 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EFlowS45\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EThe\u002DRipper1988\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:51:33 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Midwest\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eguido\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:51:44 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Esrunn\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMewtu\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:51:58 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESmith\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECutters\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:52:56 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Ptacnik\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EDanny\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:56:42 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EThe\u002DRipper1988\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EFlowS45\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:56:58 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eguido\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EDanny\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 14:57:11 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EFlowS45\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EThe\u002DRipper1988\u003C/span\u003E (??)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:00:05 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EYammers3\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETyler Nixon\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:01:24 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ERockyFx\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EJustin\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:01:45 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ETyler Nixon\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EDanny\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:03:53 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EPornilly.com\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMr.Revolution\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:04:56 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJustin\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eoff:Filleh\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:05:55 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EYammers3\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EReaper\u003C/span\u003E (AKS74U)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:08:48 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EFlowS45\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ERockyFx\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:09:14 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ERockyFx\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EJustin\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:10:01 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECutters\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ESmith\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:12:23 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESmith\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EThe\u002DRipper1988\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:12:31 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Ptacnik\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ERockyFx\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:14:34 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ERockyFx\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EJustin\u003C/span\u003E (Mosin9130)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:14:51 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EVinton\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMewtu\u003C/span\u003E (SKS_Black)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:15:07 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EReaper\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMr.Revolution\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:15:31 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESmith\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EThe\u002DRipper1988\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:16:45 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EEpiicAlpaca\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMewtu\u003C/span\u003E (SKS_Black)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:17:36 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EDanny\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMr.Revolution\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:17:47 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EThe\u002DRipper1988\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EFlowS45\u003C/span\u003E (MP5K)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:20:34 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Ptacnik\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EYammers3\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:21:38 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Ptacnik\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EReaper\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:21:55 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESmith\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EShalim91\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:23:31 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Ptacnik\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EFlowS45\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:25:35 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ERurok\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ESpap\u003C/span\u003E (?)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:25:35 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESpap\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ERurok\u003C/span\u003E (Winchester70)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:27:27 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003E[TLS]Niko\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EEpiicAlpaca\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:28:04 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ERurok\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMewtu\u003C/span\u003E (SKS_Black)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:29:34 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW BINICI\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EYammers3\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:29:41 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Midwest\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EYammers3\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:30:06 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EOTAVIO\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ESpap\u003C/span\u003E (AKS74U)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:30:12 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESpap\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EEdgu Lakota\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:30:36 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECheesecube\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETargus Targus\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:31:04 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EBrisa FKS\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Ptacnik\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:31:19 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EShalim91\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EEpiicAlpaca\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:32:47 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESpap\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ERurok\u003C/span\u003E (MP5K)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:33:10 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EThe\u002DRipper1988\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EFlowS45\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:34:01 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ENikotine\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eguido\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:38:03 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EThe\u002DRipper1988\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ERaiden\u003C/span\u003E (Winchester70)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:38:46 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EKat Zeta\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EJustin\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:39:30 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EEdgu Lakota\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Midwest\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:40:06 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EEpiicAlpaca\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EJustin\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:42:53 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ENikotine\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EThe\u002DRipper1988\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:43:37 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EEpiicAlpaca\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETanner\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:44:07 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EEdgu Lakota\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETargus Targus\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:44:31 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Midwest\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETony Goldsmith\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:44:35 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESpap\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EEli\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:46:11 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eguido\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EEli\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:46:29 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EEli\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EJust Nikolai\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:48:11 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ebeanboy\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ELeo\u003C/span\u003E (Mosin9130)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:51:22 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJustin\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EVivid\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:52:59 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EPoundcake\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMarcossDH\u003C/span\u003E (fist)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:53:25 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMr.Revolution\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ELeo\u003C/span\u003E (Winchester70)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:53:36 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECocao\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EAustin\u003C/span\u003E (MP5K)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:53:41 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Estacy\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EOWNER\u002D002\u003C/span\u003E (MP5K)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:54:29 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ENikotine\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EVivid\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:54:36 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003E13\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EBrisa FKS\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:55:23 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Esebam\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EAustin\u003C/span\u003E (MP5K)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:57:39 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECocao\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ESpap\u003C/span\u003E (Mosin9130)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:58:00 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ELeo\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ebeanboy\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 15:58:21 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EGhillie\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMarcossDH\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:03:43 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMr.Revolution\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Midwest\u003C/span\u003E (Winchester70)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:05:51 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ETargus Targus\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECheesecube\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:06:27 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EGhillie\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMarcossDH\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:09:12 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Midwest\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMewtu\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:09:36 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EEli\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ebeanboy\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:11:48 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ebeanboy\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMrHershey\u003C/span\u003E (SKS_Black)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:18:01 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EAustin\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EEdgu Lakota\u003C/span\u003E (Mosin9130)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:18:38 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ELUPO D BUTCHER\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Midwest\u003C/span\u003E (SKS_Black)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:21:54 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eben\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Medic\u003C/span\u003E (SKS_Black)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:23:13 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Midwest\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETony Goldsmith\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:25:24 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ENicolas\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EAustin\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:26:00 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eben\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EJoshua\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:26:37 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EVinton\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Euser\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:28:02 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMewtu\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ewarcrime\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:32:35 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ecolby\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMarcossDH\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:33:44 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Echarles\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EAustin\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:34:06 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJoshua\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Midwest\u003C/span\u003E (Fal)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:35:13 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMarcossDH\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EunVertical/Dave\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:35:31 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EAustin\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Midwest\u003C/span\u003E (Fal)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:36:24 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Medic\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eben\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:36:44 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ENikotine\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETony Goldsmith\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:38:23 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eben\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Midwest\u003C/span\u003E (Fal)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:38:59 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ewarcrime\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EButcher of Blav\u003C/span\u003E (VSS)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:39:00 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eevanr\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EOfficer Johnson\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:39:10 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EEdgu Lakota\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ENicolas\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:39:32 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Esebam\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EunVertical/Dave\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:42:45 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EEli\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Echarles\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:43:12 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eben\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ENicolas\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:45:36 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ETony Goldsmith\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EunVertical/Dave\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:47:01 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EUKAlien\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EOfficer Johnson\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:49:46 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ETony Goldsmith\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMewtu\u003C/span\u003E (?)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:49:46 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMewtu\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETony Goldsmith\u003C/span\u003E (PM73Rak)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:50:41 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EWoof\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ewarcrime\u003C/span\u003E (Mosin9130)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:51:48 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EEdgu Lakota\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMr.Revolution\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:53:53 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMarcossDH\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETruesailors\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:54:42 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ETruesailors\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EOfficer Johnson\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 16:57:20 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMewtu\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EButcher of Blav\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:00:10 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESirk\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EGiedrius\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:01:43 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EunVertical/Dave\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EEdgu Lakota\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:02:11 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMr.Revolution\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EButcher of Blav\u003C/span\u003E (VSS)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:04:41 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eben\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EloveU\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:05:02 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EEdgu Lakota\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EOfficer Johnson\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:09:40 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Egoopypooper\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EOfficer Johnson\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:13:41 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJenny Talwharts\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EOfficer Johnson\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:14:34 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ewarcrime\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMr.Revolution\u003C/span\u003E (AK74)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:18:48 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EWORMS!\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EOfficer Johnson\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:21:27 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eben\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EEdgu Lakota\u003C/span\u003E (Mosin9130)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:22:19 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ebearhug\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EEdgu Lakota\u003C/span\u003E (Mosin9130)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:22:25 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EOfficer Johnson\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EGiedrius\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:23:31 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ezerken\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EGiedrius\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:26:22 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMr.Revolution\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EElena\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:27:17 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EWORMS!\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EGiedrius\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:33:08 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJenny Talwharts\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eevanr\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:34:40 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EGhost12741\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETanner\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:40:47 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EGhost12741\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ESuicideFiles\u003C/span\u003E (magnum)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:40:48 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EDimitri Stergov\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eben\u003C/span\u003E (Fal)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:41:52 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESisterFister\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EAce\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:43:10 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJacob\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Epunelord\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:44:40 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EXwacu\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMasterOfAutism\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:44:42 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMasterOfAutism\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMr.Revolution\u003C/span\u003E (AKS74U)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:47:23 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EGhost12741\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMetaKnight\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:48:15 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eben\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EEdgu Lakota\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:49:35 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESuicideFiles\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ezerken\u003C/span\u003E (SKS_Black)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:50:04 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ELukeW156\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ekaleb\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:55:20 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EUKAlien\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EAce\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:57:02 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMr.Revolution\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EButcher of Blav\u003C/span\u003E (VSS)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 17:59:54 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EAce\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EloveU\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:05:10 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ELUPO D BUTCHER\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Esebam\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:05:11 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Esebam\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ENicolas\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:07:43 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ELukeW156\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EOwner\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:08:01 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMr.Revolution\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ESkyla\u003C/span\u003E (?)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:09:31 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ezerken\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMewtu\u003C/span\u003E (SKS_Black)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:11:08 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESkyla\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EVolgar\u003C/span\u003E (AK74)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:14:13 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EAce\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ELa Putona\u003C/span\u003E (VSS)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:15:04 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ENicolas\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EEdgu Lakota\u003C/span\u003E (Winchester70)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:16:18 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESkyla\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EAce\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:18:10 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EAce\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ELa Putona\u003C/span\u003E (VSS)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:21:34 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMr.Revolution\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EAce\u003C/span\u003E (Mosin9130)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:22:09 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EAce\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMewtu\u003C/span\u003E (SKS_Black)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:22:35 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMewtu\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EVaLz\u002DOD\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:24:00 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EEdgu Lakota\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EWP Ranga\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:26:13 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMr.Revolution\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EVaLz\u002DOD\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:30:57 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Esebam\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ENicolas\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:34:46 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJoshua\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ERockyFx\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:35:00 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMr.Revolution\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ELa Putona\u003C/span\u003E (VSS)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:35:04 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Efurzi\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ELa Putona\u003C/span\u003E (VSS)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:35:16 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ENicolas\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ekaleb\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:36:50 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ekaleb\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EWP Ranga\u003C/span\u003E (?)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:39:21 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ekaleb\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ejerkofjerky\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:42:24 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECarlos Duty\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMewtu\u003C/span\u003E (SKS_Black)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:43:41 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EX\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECombatWombat\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:47:30 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EThe Bourne\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EPaPa\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:50:49 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMr.Revolution\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ecolby\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:52:56 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMcGregor\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ELa Putona\u003C/span\u003E (VSS)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:57:28 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ELa Putona\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMcGregor\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 18:58:48 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Edayz nice guy\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ekaleb\u003C/span\u003E (MP5K)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:00:07 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMcGregor\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ELa Putona\u003C/span\u003E (VSS)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:00:43 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EPaPa\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EThe Bourne\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:01:19 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EX\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EWORMS!\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:07:04 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ELukeW156\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Edesolate\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:07:38 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Edayz nice guy\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ekaleb\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:09:45 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EX\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMewtu\u003C/span\u003E (SKS_Black)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:11:47 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ekaleb\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMr.Marsupial\u003C/span\u003E (AK74)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:15:35 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EEdgu Lakota\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMr.Revolution\u003C/span\u003E (ShotgunIzh43)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:15:48 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EThamos\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMr.Marsupial\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:17:38 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Edayz nice guy\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EAdministrator\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:17:47 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EThamos\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EAdministrator\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:20:57 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMewtu\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EWORMS!\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:20:58 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMr.Revolution\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EWORMS!\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:22:39 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eevanr\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ELa Putona\u003C/span\u003E (VSS)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:25:01 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Esalva\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EWORMS!\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:30:18 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EDEATHUM\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EAnn Frechen\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:30:30 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ejavii\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECombatWombat\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:33:59 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ereese\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMr.Marsupial\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:35:07 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EKrist\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EWORMS!\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:39:33 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EWORMS!\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ejavii\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:40:17 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EAdministrator\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EX\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:40:18 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Enpzor\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EX\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:41:12 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EX\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMr.Marsupial\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:43:06 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eevanr\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETheusds\u003C/span\u003E (?)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:50:31 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMr.Marsupial\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EWORMS!\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:53:12 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EDan Donnelly\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Echango\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 19:54:33 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EKrist\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EVolgar\u003C/span\u003E (Mosin9130)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 20:00:01 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMungosGaming\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ekasedillla\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 21:57:59 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESlim Jim\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eben\u003C/span\u003E (Fal)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 21:59:42 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJz\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Midwest\u003C/span\u003E (AKS74U)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:01:54 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMaverick\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EOd\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:08:31 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ENickk\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Ptacnik\u003C/span\u003E (Winchester70)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:12:22 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Ptacnik\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ejcarr\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:13:40 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Enut\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EWicKboLdT\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:16:47 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMrHershey\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EZeroTwo\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:18:19 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMrHershey\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eadmin\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:19:57 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ELUPO D BUTCHER\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Midwest\u003C/span\u003E (Winchester70)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:21:02 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Ptacnik\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EZeroTwo\u003C/span\u003E (Winchester70)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:22:03 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ENazeer\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eadmin\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:24:05 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Midwest\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETony Goldsmith\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:24:30 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EEvan\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETHExBEAN3R\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:29:33 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Trunkbirb\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETHExBEAN3R\u003C/span\u003E (VSS)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:29:40 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EGhost12741\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMetaKnight\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:29:49 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ENazeer\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EWicKboLdT\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:30:27 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ETyler\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EBilly Marina\u003C/span\u003E (fist)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:30:46 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EKarls\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECarlos Duty\u003C/span\u003E (VSS)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:30:55 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ELUPO D BUTCHER\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ESlim Jim\u003C/span\u003E (Mosin9130)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:31:28 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJaime Flores\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EBilly Marina\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:31:38 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EBilly Marina\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECrossFind\u003C/span\u003E (MP5K)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:33:13 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Ptacnik\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eben\u003C/span\u003E (Winchester70)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:33:27 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ELUPO D BUTCHER\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EGloves\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:33:44 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECrossFind\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETHExBEAN3R\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:34:07 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EKarls\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Medic\u003C/span\u003E (??)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:34:13 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EHamDoe\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eben\u003C/span\u003E (Fal)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:34:39 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eben\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EJoshua\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:35:01 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EDasken\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMrHershey\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:35:10 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Evincyl\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMrHershey\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:35:26 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EKarls\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eadmin\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:36:39 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EBilly Marina\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eadmin\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:37:17 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eben\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Esexyman\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:37:29 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ETyler\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETHExBEAN3R\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:39:00 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ejcarr\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Midwest\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:39:15 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EHamDoe\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EOfficer Johnson\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:39:18 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJz\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW OG1\u003C/span\u003E (?)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:39:18 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW OG1\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EJz\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:43:05 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJoshua\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMattyb\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:43:35 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJaime Flores\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EKillerBob\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:43:41 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECrossFind\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EKillerBob\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:44:13 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EOfficer Johnson\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EBilly Marina\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:45:37 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESlim Jim\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ELUPO D BUTCHER\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:45:59 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EBilly Marina\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMurderousEntity\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:46:07 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EDasken\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EKillerBob\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:46:14 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ETyler\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ELUPO D BUTCHER\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:47:13 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EDasken\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ESlim Jim\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:47:19 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMattyb\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Esexyman\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:48:28 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJaime Flores\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EZeroTwo\u003C/span\u003E (Winchester70)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:52:01 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Medic\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EGhost12741\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:52:05 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EBilly Marina\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EOfficer Johnson\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:52:36 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Etb4la\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMurderousEntity\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:52:44 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eadmin\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETHExBEAN3R\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:52:46 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJoshua\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMattyb\u003C/span\u003E (Mosin9130)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:52:58 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMurderousEntity\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EKillerBob\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:53:29 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESnortable\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eben\u003C/span\u003E (Fal)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:54:05 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EWicKboLdT\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EHARD\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:54:13 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ESlim Jim\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EOwner\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:54:18 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EOwner\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EHARD\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 22:57:00 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eadmin\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETHExBEAN3R\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:03:25 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECOSMOSTRIP\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECowboy Dan\u003C/span\u003E (VSS)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:03:28 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Edavid\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETemka\u003C/span\u003E (Mosin9130)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:03:50 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ebeanboy\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMetaKnight\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:05:54 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ebeanboy\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EGhost12741\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:06:32 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Edavid\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETemka\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:06:55 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECowboy Dan\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EOWNER\u002D002\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:10:12 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Medic\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECOSMOSTRIP\u003C/span\u003E (AK74)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:10:42 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECOSMOSTRIP\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW OG1\u003C/span\u003E (Fal)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:12:23 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EToeCutter\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETemka\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:12:36 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECapt. Cakes\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMaverick\u003C/span\u003E (Winchester70)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:12:46 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECOSMOSTRIP\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EBen\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:13:21 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EBen\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Edavid\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:13:30 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ETemka\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMaverick\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:13:40 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EAgarwaen\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EOscarG\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:14:02 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EHunter Robbert\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EZeroTwo\u003C/span\u003E (PM73Rak)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:17:30 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EOWNER\u002D002\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EJack Hondo\u003C/span\u003E (VSS)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:18:38 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJordan\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EZeroTwo\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:22:39 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EOWNER\u002D002\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EJordan\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:25:48 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EHendrick\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EJordan\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:28:56 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMrHershey\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMaverick\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:28:56 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMaverick\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMrHershey\u003C/span\u003E (?)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:30:18 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMaverick\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EZeroTwo\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:31:33 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EHorkerPorker\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EZeroTwo\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:32:09 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJordan\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMetaKnight\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:32:24 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMetaKnight\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMrHershey\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:32:30 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EReggie\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMrHershey\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:33:44 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EOWNER\u002D002\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW BINICI\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:36:51 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW BINICI\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMrHershey\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:37:00 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMrHershey\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Medic\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:37:16 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMetaKnight\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EZeroTwo\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:38:15 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EBen\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW OG1\u003C/span\u003E (Fal)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:38:24 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EGhost12741\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Midwest\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:38:48 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ECMW Midwest\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETony Goldsmith\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:38:57 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMrHershey\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EZeroTwo\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:40:51 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ETony Goldsmith\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW OG1\u003C/span\u003E (Fal)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:41:29 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Efaran\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMaverick\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:45:11 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EHendrick\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMetaKnight\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:45:16 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMetaKnight\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EZeroTwo\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:46:57 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EAlien Xibil BR\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Efaran\u003C/span\u003E (Mosin9130)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:54:42 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJared Galyan\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW Medic\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:58:06 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EGhost12741\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMetaKnight\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D01 23:59:30 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EHorkerPorker\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EJordan\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 00:00:18 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EVolgar\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETater\u003C/span\u003E (Winchester70)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 02:04:02 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eben\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECMW OG1\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 02:06:27 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EArs\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMorty\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 02:07:49 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMorty\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eben\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 02:19:57 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EEli\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eben\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 02:25:30 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ETheusds\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EVolgar\u003C/span\u003E (AK74)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 02:32:22 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EEli\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Emaverick\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 02:43:41 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ELeonard\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETater\u003C/span\u003E (Winchester70)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 02:47:47 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMisiekpl\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eben\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 02:59:26 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EArs\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Emaverick\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:00:17 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJoe\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EKenny\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:02:22 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ENZXT\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Emaverick\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:03:03 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eaaron\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Esans\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:08:22 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EVolgar\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EOwner\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:24:22 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EAnderson\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EJoe\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:24:24 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJoe\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Emaverick\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:24:46 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EGamingNaNa\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ETheusds\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:34:51 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EArs\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMorty\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:35:07 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EWP Ranga\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Emaverick\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:36:31 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Edavid\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EWar Machine\u003C/span\u003E (MP5K)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:43:58 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Emaverick\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EEli\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:44:12 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EKenny\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMaverick (2)\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:44:56 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EAnderson\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMEMESAUCE\u003C/span\u003E (MP5K)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:49:03 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ELindaBengtzing\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMaverick (2)\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:50:59 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ETheusds\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMaverick (2)\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:55:15 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMaverick (2)\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EGamingNaNa\u003C/span\u003E</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:57:58 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EVolgar\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMaverick (2)\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:58:28 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Exy\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EArs\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 03:59:48 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Emaverick\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMaverick (2)\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 04:02:39 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EAnderson\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMaverick (2)\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 04:09:53 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EBigMac\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Emaverick\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 04:13:32 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EUser\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EEli\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 04:15:58 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EEli\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eadmin\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 04:15:59 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eadmin\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EEli\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 04:17:00 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EUser\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EHARD\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 04:17:01 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EHARD\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Etb4la\u003C/span\u003E (SKS_Black)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 04:19:10 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EUser\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMaverick (2)\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 04:39:23 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EBigMac\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EGamingNaNa\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 04:48:55 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EUser\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EUser (2)\u003C/span\u003E (VSS)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 04:53:54 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EUser (2)\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMitchell\u003C/span\u003E (VSS)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 07:41:26 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMisiekpl\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ENickk\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 08:03:49 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eol dirty bastad\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ESHERIFF\u003C/span\u003E (AKS74U)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 08:28:48 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Eol dirty bastad\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003El assassin\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 08:40:02 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003El assassin\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ELeumann\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 08:40:17 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ENickk\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Edad\u003C/span\u003E (Mosin9130)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 08:42:49 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJerry Shroom\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Erisjl\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 08:59:30 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Edad\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ELeaRSI\u003C/span\u003E (AKM)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 09:07:59 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003El assassin\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ebearhug\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 09:09:50 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ebearhug\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eplaymobil\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 09:24:29 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EZeus\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EAce\u003C/span\u003E (AK74)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 09:25:38 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EOwner\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EVolgar\u003C/span\u003E (??)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 09:27:40 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003El assassin\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Eplaymobil\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 09:40:23 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EOwner\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EVolgar\u003C/span\u003E (??)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 09:44:18 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EOwner\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ebearhug\u003C/span\u003E (AKS74U)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 09:52:18 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ebigthh\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ebearhug\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 10:17:23 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EOperator\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ECromagnon\u003C/span\u003E (AugSteyr)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 10:36:08 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EWayne\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EPedrovski\u003C/span\u003E (Fal)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 11:17:06 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EJMillz\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EEagle\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 11:59:51 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003ERekt\u002DYar\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003Ejavii\u003C/span\u003E (MP5K)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 11:59:52 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Ejavii\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003ERekt\u002DYar\u003C/span\u003E (??)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 12:10:54 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EToastyBits\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMaverick\u003C/span\u003E (AK101)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 12:25:53 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003Etom\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EMaverick\u003C/span\u003E (M4A1)</p>');
+         
+         $('#console-killfeed').append('<p>09\u002D02 12:29:33 | \u003Cspan style\u003D\u0022color:#B53F4D\u0022\u003EMKGaming\u003C/span\u003E was killed by \u003Cspan style\u003D\u0022color:#3498db\u0022\u003EBlack\u002D Panzer86\u003C/span\u003E (SVD)</p>');
+         
+         $('#console-killfeed').append('<div style="position: absolute;background: #393D46;margin-top: 7px;margin-left: 463px; width: 176px;text-align: center; color: #33c754;">Live Feed Starts Below</div>');
+         $('#console-killfeed').append('<p><hr style="border-top: 1px dashed #77a982;"></p>');
+         scrollConsole("killfeed");
+    
+         // Enable pusher logging - don't include this in production
+         Pusher.logToConsole = true;
+
+         var pusher = new Pusher('c690da3566fa05812f26', {
+               encrypted: false
+         });
+
+         var channel = [];
+         channel = pusher.subscribe('64.94.95.154_2400_killfeed'); 
+         channel.bind('killfeed_data', function(data) {
+             if (data.headshot) 
+                 headshot = ' -- Headshot!';
+             else 
+                 headshot = '';
+             if (data.attacker_forum_id == 0)
+                 // registered = '&nbsp;&nbsp;<span style=\"color: #8c8c8c;">[Killer Not Registered]</span>';
+                 registered = '';
+             else
+                 registered = '';
+
+             if (data.item == '')
+                 item = 'unknown'
+             else
+                 item = data.item
+
+             $('#console-killfeed').append("<p>"+data.time+" | <span style=\"color:#B53F4D\">"+data.victim+"</span> was killed by <span style=\"color:#219C73\">"+data.attacker+'</span> ('+item+') '+headshot+'&nbsp;(+'+data.spree+' spree) '+registered+'</p>');
+             scrollConsole('killfeed');
+         });
+   
+
+})();
+</script>
+
+ 
+    </div>
+
+    <div id="posting-placeholder">
+  <div id="posting-mount"></div>
+</div>
+    
+<footer class="misago-footer">
+  <div class="container">
+    <div class="footer-content">
+
+      <noscript>
+        <p class="noscript-message">
+          <i class="material-icon hidden-xs hidden-sm">info_outline</i>
+          For complete experience please enable JavaScript.
+        </p>
+      </noscript>
+
+      
+        <ul class="list-inline footer-nav">
+        
+          <li class="site-footnote">
+            <!-- This community is powered by the Zap Engine -->
+          </li>
+        
+        
+        
+        </ul>
+      
+
+      <a href="http://gvepvp.com" class="misago-branding">
+        powered by <strong>Zap Engine v2.0 and Misago</strong>
+      </a>
+
+    </div>
+  </div>
+</footer>
+
+    
+<form id="hidden-login-form" method="post" action="/login/" style="display: none;">
+  <input type='hidden' name='csrfmiddlewaretoken' value='c2QZ4poBFA7qE8oqj7UdbvMofQcKppXkvFa1zbry0k0w1WKQ4MKhTiooCMvPP5J8' />
+  <input name="redirect_to" type="text">
+  <input type="submit" id="signin-button" value="Sign in">
+</form>
+
+
+
+    <div class="modal fade" id="modal-mount" tabindex="-1" role="dialog" aria-labelledby="misago-modal-label"></div>
+
+    <script src="/django-i18n.js"></script>
+    <script type="text/javascript">
+      if (!(Object.assign && Array.from)) {
+        var polyfill = document.createElement('script');
+        polyfill.src = '/static/misago/js/es2015.js';
+        document.getElementsByTagName('head')[0].appendChild(polyfill);
+      }
+    </script>
+    <script src="/static/misago/js/vendor.js"></script>
+    
+    <script src="/static/misago/js/misago.js"></script>
+    
+    <script type="text/javascript">
+      misago.init({"THREADS_ON_INDEX": true, "USERCP_URL": "/options/", "CSRF_COOKIE_NAME": "csrftoken", "AUTH_CRITERIA_API": "/api/auth/criteria/", "THREAD_EDITOR_API": "/api/threads/editor/", "BLANK_AVATAR_URL": "/static/blank-avatar.png", "MISAGO_PATH": "/", "user": {"id": null, "acl": {"can_search": 1, "can_report_private_threads": 0, "max_ban_length": 2, "can_lift_bans": 0, "can_delete_users_newer_than": 0, "can_see_users_name_history": 0, "can_ban_users": 0, "can_omit_flood_protection": false, "can_moderate_private_threads": 0, "can_start_polls": 0, "max_lifted_ban_length": 2, "browseable_categories": [20, 3, 7], "categories": [{"can_close_threads": 0, "id": 3, "can_start_threads": 0, "can_reply_threads": 0, "can_hide_threads": 0, "can_pin_threads": 0}, {"can_close_threads": 0, "id": 20, "can_start_threads": 0, "can_reply_threads": 0, "can_hide_threads": 0, "can_pin_threads": 0}, {"can_close_threads": 0, "id": 7, "can_start_threads": 0, "can_reply_threads": 0, "can_hide_threads": 0, "can_pin_threads": 0}], "max_private_thread_participants": 3, "can_see_reports": [], "can_edit_polls": 0, "can_see_unapproved_content_lists": false, "allow_signature_blocks": 0, "can_search_users": 1, "poll_edit_time": 0, "can_always_see_poll_voters": 0, "can_be_blocked": 1, "can_rename_users": 0, "can_moderate_signatures": 0, "can_browse_users_list": 1, "can_have_signature": 0, "can_see_hidden_users": 0, "can_delete_polls": 0, "_acl_version": 61, "max_attachment_size": 0, "can_see_users_ips": 0, "can_moderate_avatars": 0, "allow_signature_links": 0, "can_see_users_emails": 0, "can_delete_users_with_less_posts_than": 0, "visible_categories": [20, 3, 7, 5, 6], "name_changes_expire": 0, "can_approve_content": [], "name_changes_allowed": 0, "can_download_other_users_attachments": true, "can_see_reported_content_lists": false, "can_follow_users": 0, "can_start_private_threads": 0, "can_see_ban_details": 0, "allow_signature_images": 0, "can_use_private_threads": 0, "can_delete_other_users_attachments": false, "can_add_everyone_to_private_threads": 0}, "is_authenticated": false, "is_anonymous": true}, "THREADS_API": "/api/threads/", "AUTH_API": "/api/auth/", "PRIVATE_THREADS_URL": "/private-threads/", "CAPTCHA_API": "/api/captcha-question/", "USERNAME_CHANGES_API": "/api/username-changes/", "ATTACHMENTS_API": "/api/attachments/", "SETTINGS": {"terms_of_service": null, "forum_index_title": "", "thread_title_length_min": 4, "terms_of_service_link": "", "LOGIN_URL": "/login/", "privacy_policy_title": "", "account_activation": "user", "LOGIN_API_URL": "auth", "post_length_max": 60000, "captcha_type": "re", "recaptcha_site_key": "6Lc0hyEUAAAAAI2aSj-AVVBy7ZESFmSBnh1Rw4Hx", "signature_length_max": 256, "forum_footnote": "This community is powered by the Zap Engine", "privacy_policy": null, "LOGOUT_URL": "/logout/", "LOGIN_REDIRECT_URL": "/", "post_length_min": 5, "avatar_upload_limit": 30000, "forum_name": "GvE Forums", "forum_branding_text": "Good vs Evil", "privacy_policy_link": "", "forum_branding_display": true, "thread_title_length_max": 150, "terms_of_service_title": "Terms of Service"}, "isAuthenticated": false, "USERS_API": "/api/users/", "USERS_LIST_URL": "/users/", "PRIVATE_THREADS_API": "/api/private-threads/", "BANNED_URL": "/banned/", "PARSE_MARKUP_API": "/api/parse-markup/", "REQUEST_ACTIVATION_URL": "/request-activation/", "CURRENT_LINK": "killfeed:index-killfeed-live", "FORGOTTEN_PASSWORD_URL": "/forgotten-password/", "STATIC_URL": "/static/"});
+    </script>
+    <script type="text/javascript" src="https://js.pusher.com/3.1/pusher.min.js"></script> 
+    <script type="text/javascript">                                                                               
+    function getCount() {
+          $.ajax({
+              url: '/leaderboard/online/count/',
+             type: 'GET',
+          success: function(e) {
+                   if (e.count) {
+                        $("span#online").html("("+e.count+")");
+                        $("#count").text(e.count);
+                   }
+                }
+           })
+     }
+
+     getCount();
+
+     setInterval(function() { getCount(); }, 10000); 
+
+     </script>                                                                              
+  </body>
+</html>
