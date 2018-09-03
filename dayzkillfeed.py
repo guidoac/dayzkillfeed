@@ -8,7 +8,7 @@ banco = sqlite3.connect('killfeed.db')
 banco_cursor = banco.cursor()
 banco_cursor.execute('CREATE TABLE IF NOT EXISTS killfeed(ID INTEGER PRIMARY KEY , DATAHORA DATETIME, MORTO TEXT, ASSA TEXT, ARMA TEXT)')
 
-pagina_arq = open('D:\Guilherme\Projetos\web scraping gve\html teste.html').read()
+pagina_arq = open('D:\Guilherme\Projetos\Github projetos\dayzkillfeed\html teste.html').read()
 pagina_str = requests.get("https://gvepvp.com/killfeed/live/")
 #início funcões e classes principais do sistema---------------------------------------------------------------
 
