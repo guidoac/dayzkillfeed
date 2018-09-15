@@ -9,7 +9,7 @@ banco_cursor = banco.cursor()
 banco_cursor.execute('CREATE TABLE IF NOT EXISTS killfeed(ID INTEGER PRIMARY KEY , DATAHORA DATETIME, MORTO TEXT, ASSA TEXT, ARMA TEXT)')
 
 pagina_arq = open('D:\Guilherme\Projetos\Github projetos\dayzkillfeed\html teste.html').read()
-pagina_str = requests.get("https://gvepvp.com/killfeed/live/")
+#pagina_str = requests.get("https://gvepvp.com/killfeed/live/").content
 #início funcões e classes principais do sistema---------------------------------------------------------------
 
 #classe principal, possui como parametro o nome para busca e grava no banco de dados todos os eventos com o player indicado envolvido.
@@ -19,7 +19,7 @@ class KillfeedGVE(object):
         if (self.nomeplayer == ''):
             print("Digite um nome para buscar")
         else:
-            self.killfeed = self.__listar_kills__(pagina_str.content)
+            self.killfeed = self.__listar_kills__(pagina_arq)
 
     def __listar_kills__(self, pagina):
         soup = BeautifulSoup(pagina, "html.parser")

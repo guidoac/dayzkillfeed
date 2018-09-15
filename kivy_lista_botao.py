@@ -20,18 +20,13 @@ class KillfeedApp(BoxLayout):
         nome_entrada = self.ids['entrada_nome']
         dados_killfeed = gve.KillfeedGVE(nome_player=nome_entrada.text)
         dados_killfeed.gravar()
+        print(dados_killfeed.killfeed)
 
         select = banco_cursor_ui.execute('SELECT DATAHORA, MORTO, ASSA, ARMA FROM KILLFEED  WHERE MORTO = (?) OR ASSA = (?)', (nome_entrada.text, nome_entrada.text))
         lista_banco = select.fetchall()
         self.lista_final = lista_banco
 
 class Killfeed(App):
-    screen_m = ScreenManager(transition=RiseInTransition())
-    def abrir_janela(self):
-        self.screen_m.add_widget(Janela_info(name='Detalhes'))
-
-    def fechar_janela(self):
-        self.screen_m.remove_widget(self.screen)
 
     def build(self):
         return KillfeedApp()
