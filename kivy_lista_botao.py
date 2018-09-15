@@ -3,16 +3,12 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ListProperty
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.core.window import Window
 import sqlite3
 
 banco_ui = sqlite3.connect('killfeed.db')
 banco_cursor_ui = banco_ui.cursor()
 
-class Janela_info(Screen):
-    pass
-
-class KillfeedApp(BoxLayout):
+class KillfeedApp(Screen):
     lista_final = ListProperty([])
     list_args_converter = lambda i,j,dado: dict(height=30, size_hint_y=None, datahora=dado[0], morto=dado[1],assa=dado[2], arma=dado[3])
 
@@ -26,9 +22,11 @@ class KillfeedApp(BoxLayout):
         lista_banco = select.fetchall()
         self.lista_final = lista_banco
 
-class Killfeed(App):
+sm = ScreenManager()
+sm.add_widget(KillfeedApp(name = 'principal'))
 
+class Killfeed(App):
     def build(self):
-        return KillfeedApp()
+        return sm
 
 Killfeed().run()

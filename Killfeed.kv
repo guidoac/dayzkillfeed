@@ -8,44 +8,45 @@
 #:import WindowBase kivy.core.window
 
 <KillfeedApp>
-	orientation:'vertical'
-	padding: 10
-	spacing: 10
 	BoxLayout:
-		orientation:'horizontal'
-		size_hint_y:None
-		height: 30
+		orientation:'vertical'
+		padding: 10
 		spacing: 10
-		Label:
-			text:'Digite'
-		TextInput:
-			id:entrada_nome
-			size_hint_x: None
-			width: 500
-			multiline:False
-			on_text_validate:root.buscar_banco()
-		Button:
-			text:'Pesquisar'
-			on_release: root.buscar_banco()
-	BoxLayout:
-		orientation:'horizontal'
-		size_hint_y:None
-		height: 30
-		Label:
-			text: 'Data e Hora'
-			font_size: 20
-		Label:
-			text: 'Morreu'
-			font_size: 20
-		Label:
-			text: 'Assassino'
-			font_size: 20
-		Label:
-			text: 'Arma'
-			font_size: 20
-	ListView:
-		adapter:
-			ListAdapter(data=root.lista_final, args_converter=root.list_args_converter, template='Dados_evento')
+		BoxLayout:
+			orientation:'horizontal'
+			size_hint_y:None
+			height: 30
+			spacing: 10
+			Label:
+				text:'Digite'
+			TextInput:
+				id:entrada_nome
+				size_hint_x: None
+				width: 500
+				multiline:False
+				on_text_validate:root.buscar_banco()
+			Button:
+				text:'Pesquisar'
+				on_release: root.buscar_banco()
+		BoxLayout:
+			orientation:'horizontal'
+			size_hint_y:None
+			height: 30
+			Label:
+				text: 'Data e Hora'
+				font_size: 20
+			Label:
+				text: 'Morreu'
+				font_size: 20
+			Label:
+				text: 'Assassino'
+				font_size: 20
+			Label:
+				text: 'Arma'
+				font_size: 20
+		ListView:
+			adapter:
+				ListAdapter(data=root.lista_final, args_converter=root.list_args_converter, template='Dados_evento')
 
 <Janela_info>:
 	auto_dismiss: True
