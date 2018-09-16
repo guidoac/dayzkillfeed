@@ -23,7 +23,9 @@ class KillfeedApp(Screen):
         self.lista_final = lista_banco
 
 sm = ScreenManager()
-sm.add_widget(KillfeedApp(name = 'principal'))
+tela_prin = KillfeedApp(name = 'killfeed')
+sm.add_widget(tela_prin)
+print(sm.screens)
 
 class Killfeed(App):
     def build(self):

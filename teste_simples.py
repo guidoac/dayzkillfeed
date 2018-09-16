@@ -1,13 +1,17 @@
 import dayzkillfeed as gve
-import sqlite3
-
-banco_ui = sqlite3.connect('killfeed.db')
-banco_cursor_ui = banco_ui.cursor()
 
 nome = input("Informe o nome do jogador:")
 kill = gve.KillfeedGVE(nome_player = nome)
-kill.gravar()
 
-select = banco_cursor_ui.execute('SELECT DATAHORA, MORTO, ASSA, ARMA FROM KILLFEED  WHERE MORTO = (?) OR ASSA = (?)', (nome, nome))
-lista_banco = select.fetchall()
-print(kill.killfeed)
+print('------------------------------')
+print('JOGADOR: {0}'.format(kill.nomeplayer))
+print('KILLS: {0}'.format(kill.qtdkills))
+print('MORTES: {0}'.format(kill.qtdmorte))
+print()
+
+print('-------------------------------------------------------------------------------------')
+print('     DATA E HORA     ||      MORTO       ||      ASSASSINO       ||      ARMA      ||')
+print('-------------------------------------------------------------------------------------')
+for linha in kill.banco_killfeed:
+    print('  {0}  ||  {1}     ||  {2}         ||  {3}      ||'. format(linha[0], linha[1], linha[2], linha[3]))
+    print('---------------------------------------------------------------------------------')

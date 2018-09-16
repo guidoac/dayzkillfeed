@@ -19,9 +19,17 @@ class KillfeedGVE(object):
         if (self.nomeplayer == ''):
             print("Digite um nome para buscar")
         else:
-            self.killfeed = self.__listar_kills__(pagina_arq)
+            self.killfeed = self.__listarkills(pagina_arq)
+            self.gravar()
 
-    def __listar_kills__(self, pagina):
+            banco_cursor.execute('SELECT COUNT(*) FROM KILLFEED WHERE MORTO = (?)', (self.nomeplayer))
+            self.qtdmorte = banco_cursor.fetchone()
+            banco_cursor.execute('SELECT COUNT(*)  FROM KILLFEED WHERE ASSA = (?)', (self.nomeplayer))
+            self.qtdkills = banco_cursor.fetchone()
+            banco_cursor.execute('SELECT DATAHORA, MORTO, ASSA, ARMA FROM KILLFEED  WHERE MORTO = (?) OR ASSA = (?)', (self.nomeplayer, self.nomeplayer))
+            self.banco_killfeed = banco_cursor.fetchone()
+
+    def __listarkills(self, pagina):
         soup = BeautifulSoup(pagina, "html.parser")
         tag_script = list(soup.children)[23]
         console_infoaux = list(tag_script.children)[0]
@@ -30,15 +38,15 @@ class KillfeedGVE(object):
         lista_final = []
         for linha_info in list(console_info):
             linha_info = linha_info.strip()
-            if (self.__linha_util__(linha_info) == True):
-                dados_kills = self.__atribuir_dados__(linha_info)
+            if (self.__contemKills(linha_info) == True):
+                dados_kills = self.__estruturarDados(linha_info)
                 if self.nomeplayer == dados_kills['morto'] or self.nomeplayer == dados_kills['assassino']:
                     lista_final.append(dados_kills)
             else:
                 pass
         return lista_final
 
-    def __linha_util__(self, linha):
+    def __contemKills(self, linha):
         linha_aux = linha.split('\\u')
         if(linha.startswith('$') == True):
             try:
@@ -49,38 +57,34 @@ class KillfeedGVE(object):
         else:
             return False
 
-    def __atribuir_dados__(self, linha_console):
+    def __estruturarDados(self, linha_console):
         linha_console_list = linha_console.split("\\u")
 
         ano = str(time.localtime()[0])
-        mes = fatiar_str(linha_console_list[0], 34, 36)
-        dia = fatiar_str(linha_console_list[1], 4, 6)
+        mes = linha_console_list[0][34:36]
+        dia = linha_console_list[1][4:6]
         data =  dia + mes + ano
-        hora = fatiar_str(linha_console_list[1], 6, 15)
+        hora = linha_console_list[1][6:15]
 
         datahora = data + hora
-        morto = fatiar_str(linha_console_list[6], 4)
-        assassino = fatiar_str(linha_console_list[13], 4)
+        morto = linha_console_list[6][4:]
+        assassino = linha_console_list[13][4:]
 
-        arma = fatiar_str(linha_console_list[15], 6)
+        arma = linha_console_list[15][6:]
         arma = arma.split(")")[0]
 
         evento_dict = dict(datahora = datahora, morto = morto, assassino = assassino, arma = arma)
         return evento_dict
 
-    def imprimir(self):
-        for print_dict in self.killfeed:
-            print("Data e Hora:", print_dict['datahora'], "Morto:", print_dict['morto'], "Assassino:", print_dict['assassino'], "Arma:", print_dict['arma'] + '\n')
-
     def gravar(self):
         for dict_evento in self.killfeed:
-            if(self.__pode_gravar__(dict_evento) == True):
+            if(self.__podeGravar(dict_evento) == True):
                 banco_cursor.execute('INSERT INTO killfeed (DATAHORA, MORTO, ASSA,  ARMA) '
                              'VALUES (?,?,?,?)', (dict_evento['datahora'], dict_evento['morto'], dict_evento['assassino'], dict_evento['arma']))
         banco.commit()
 
 #função pode_gravar foi criada para não criar dados repetidos no banco após várias requisições em pouco espaço de tempo, retorna booleano
-    def __pode_gravar__(self, gravar_dict):
+    def __podeGravar(self, gravar_dict):
         banco_cursor.execute('SELECT DATAHORA, MORTO, ASSA FROM KILLFEED  WHERE MORTO = (?) OR ASSA = (?)ORDER BY ID DESC LIMIT 1', (self.nomeplayer, self.nomeplayer))
         ultimo_evento = banco_cursor.fetchone()
         if (ultimo_evento != None):
@@ -93,9 +97,5 @@ class KillfeedGVE(object):
                 return True
         else:
             return True
-
-def fatiar_str(string, liminf=0, limsup = None):
-    string = string[liminf:limsup]
-    return string
 
 #fim funcões e classes principais do sistema---------------------------------------------------------------
